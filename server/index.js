@@ -12,13 +12,13 @@ app.use(
 );
 
 const connectDB = require("./config/db");
-const authRoutes = require("./routes/authRoutes");
 
 app.get("/", (req, res) => {
   res.send("Server running successfully");
-})
+});
 
-app.use("/api/auth", authRoutes);
+app.use("/api/auth", require("./routes/authRoutes"));
+app.use("/api", require("./routes/postRoutes"));
 
 connectDB();
 app.listen(process.env.PORT || 5000, () => {
