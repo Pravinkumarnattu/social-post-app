@@ -9,7 +9,7 @@ const {
   addComment,
 } = require("../controllers/postController");
 
-router.get("/post", getFeed);
+router.get("/post", auth, getFeed);
 
 router.post("/post", auth, createPost);
 
