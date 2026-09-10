@@ -70,7 +70,7 @@ const Feed = () => {
             ))}
           </section>
         ) : (
-          <div>No posts available right now</div>
+          <div className="no-posts">No posts available right now</div>
         )}
       </div>
     );
