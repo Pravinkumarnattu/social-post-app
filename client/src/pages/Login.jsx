@@ -24,7 +24,7 @@ const Login = () => {
       navigate("/feed", { replace: true });
     } catch (err) {
       console.error(err);
-      setErrMsg(err.response?.data?.message);
+      setErrMsg(err.response?.data?.message || "Something went wrong");
     } finally {
       setLoading(false);
     }

@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import api from "../api/axiosInstance";
+import CreatePostForm from "../components/CreatePostForm";
+import PostCard from "../components/PostCard";
 
 const views = {
   initial: "INITIAL",
@@ -22,18 +24,35 @@ const Feed = () => {
         setCurrView(views.success);
       } catch (err) {
         setCurrView(views.failure);
-        setErrMsg(err?.response?.data?.message);
+        setErrMsg(err?.response?.data?.message || "Something went wrong");
         console.error(err);
       }
     };
     fetchPosts();
   }, []);
 
-  const loadingView = () => <div className="loading-view">Loading...</div>; 
+  const loadingView = () => <div className="loading-view">Loading...</div>;
+
+  const handlePostCreated = (newPost) => {
+    const newPostAdded = posts;
+    newPostAdded.unshift(newPost);
+    setPosts(newPostAdded);
+  };
 
   const postDetails = () => {
-      return <h1>Post</h1>
-  }
+    return (
+      <div className="posts-container">
+        <section className="create-post-container">
+          <CreatePostForm onPostCreated={handlePostCreated} />
+        </section>
+        <section className="feeds-conatainer">
+          {posts.map((post) => (
+            <PostCard key={post._id} details={post} />
+          ))}
+        </section>
+      </div>
+    );
+  };
 
   const failureView = () => <div className="failure-view">{errMsg}</div>;
 
