@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import api from "../api/axiosInstance";
 import CreatePostForm from "../components/CreatePostForm";
 import PostCard from "../components/PostCard";
+import "./Feed.css"
 
 const views = {
   initial: "INITIAL",
@@ -57,8 +58,8 @@ const Feed = () => {
         <section className="create-post-container">
           <CreatePostForm onPostCreated={handlePostCreated} />
         </section>
-        {posts.length != 0 ? (
-          <section className="feeds-conatainer">
+        {posts.length !== 0 ? (
+          <section className="feeds-container">
             {posts.map((post) => (
               <PostCard
                 key={post._id}

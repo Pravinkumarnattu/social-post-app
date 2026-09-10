@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../api/axiosInstance";
+import "./Signup.css";
 
 const Signup = () => {
   const [loading, setLoading] = useState(false);
