@@ -10,9 +10,10 @@ const createPost = async (req, res) => {
         .json({ message: "Post must contain text or image" });
     }
     const newPost = await Post.create({ user: req.user.id, text, image });
+    const populatedPost = await newPost.populate("user", "name");
     return res
       .status(201)
-      .json({ message: "Post created successfully", post: newPost });
+      .json({ message: "Post created successfully", post: populatedPost });
   } catch (err) {
     return res
       .status(500)
@@ -35,6 +36,12 @@ const getFeed = async (req, res) => {
   }
 };
 
+const getPopulatedPost = (id) =>
+  Post.findById(id)
+    .populate("user", "name")
+    .populate("likes", "name")
+    .populate("comments.user", "name");
+
 const toggleLike = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
@@ -48,7 +55,7 @@ const toggleLike = async (req, res) => {
       post.likes.push(req.user.id);
     }
     await post.save();
-    return res.status(200).json(post);
+    return res.status(200).json(await getPopulatedPost(post._id));
   } catch (err) {
     return res
       .status(500)
@@ -68,7 +75,7 @@ const addComment = async (req, res) => {
     }
     post.comments.push({ user: req.user.id, text });
     await post.save();
-    return res.status(201).json(post);
+    return res.status(200).json(await getPopulatedPost(post._id));
   } catch (err) {
     return res
       .status(500)

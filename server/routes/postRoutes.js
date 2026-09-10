@@ -15,6 +15,6 @@ router.post("/post", auth, createPost);
 
 router.post("/post/:id/like", auth, toggleLike);
 
-router.post("/post/:id/comments", auth, addComment);
+router.post("/post/:id/comment", auth, addComment);
 
 module.exports = router;

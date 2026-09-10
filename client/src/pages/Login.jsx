@@ -18,9 +18,9 @@ const Login = () => {
       setErrMsg("");
       setLoading(true);
       const response = await api.post("/auth/login", userDetails);
-      console.log(response);
-      const { token } = response?.data;
+      const { token, user } = response?.data;
       Cookies.set("jwt_token", token, { expires: 7 });
+      Cookies.set("user", JSON.stringify(user), { expires: 7 });
       navigate("/feed", { replace: true });
     } catch (err) {
       console.error(err);

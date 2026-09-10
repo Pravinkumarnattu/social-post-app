@@ -34,9 +34,21 @@ const Feed = () => {
   const loadingView = () => <div className="loading-view">Loading...</div>;
 
   const handlePostCreated = (newPost) => {
-    const newPostAdded = posts;
-    newPostAdded.unshift(newPost);
-    setPosts(newPostAdded);
+    setPosts((prev) => [newPost, ...prev]);
+  };
+
+  const updatedPostLikes = (updatedPost) => {
+    const updatedPosts = posts.map((post) =>
+      post._id === updatedPost._id ? updatedPost : post,
+    );
+    setPosts(updatedPosts);
+  };
+
+  const updatedPostComments = (updatedPost) => {
+    const updatedPosts = posts.map((post) =>
+      post._id === updatedPost._id ? updatedPost : post,
+    );
+    setPosts(updatedPosts);
   };
 
   const postDetails = () => {
@@ -45,11 +57,20 @@ const Feed = () => {
         <section className="create-post-container">
           <CreatePostForm onPostCreated={handlePostCreated} />
         </section>
-        <section className="feeds-conatainer">
-          {posts.map((post) => (
-            <PostCard key={post._id} details={post} />
-          ))}
-        </section>
+        {posts.length != 0 ? (
+          <section className="feeds-conatainer">
+            {posts.map((post) => (
+              <PostCard
+                key={post._id}
+                post={post}
+                updateLikes={updatedPostLikes}
+                updateComments={updatedPostComments}
+              />
+            ))}
+          </section>
+        ) : (
+          <div>No posts available right now</div>
+        )}
       </div>
     );
   };

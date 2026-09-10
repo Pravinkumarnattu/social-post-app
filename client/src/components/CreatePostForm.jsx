@@ -41,9 +41,9 @@ const CreatePostForm = ({ onPostCreated }) => {
       }
 
       const response = await api.post("/post", { text, image: imageUrl });
+      onPostCreated(response?.data?.post);
       setText("");
       setImageFile(null);
-      onPostCreated(response?.data?.post);
     } catch (err) {
       console.error(err);
       setErrMsg(err.response?.data?.message || "Something went wrong");
